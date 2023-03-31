@@ -18,7 +18,7 @@ public class ProductService : IProductService
         try
         {
             var products = await this.httpClient.GetFromJsonAsync<IEnumerable<ProductDto>>("api/Product");
-            return products;
+            return products!;
         }
         catch (System.Exception)
         {

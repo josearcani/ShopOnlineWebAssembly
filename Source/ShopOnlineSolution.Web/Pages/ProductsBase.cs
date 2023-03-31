@@ -7,9 +7,9 @@ namespace ShopOnlineSolution.Web.Pages;
 public class ProductsBase : ComponentBase
 {
     [Inject]
-    public IProductService ProductService { get; set; }
+    public IProductService ProductService { get; set; } = null!;
 
-    public IEnumerable<ProductDto> Products { get; set; }
+    public IEnumerable<ProductDto> Products { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,7 +26,7 @@ public class ProductsBase : ComponentBase
 
     protected string GetCategoryName(IGrouping<int, ProductDto> groupedProductsDto)
     {
-        return groupedProductsDto.FirstOrDefault(pg => pg.CategoryId == groupedProductsDto.Key).CategoryName;
+        return groupedProductsDto.FirstOrDefault(pg => pg.CategoryId == groupedProductsDto.Key)!.CategoryName;
     }
 
 }
