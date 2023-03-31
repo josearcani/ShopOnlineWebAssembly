@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using ShopOnlineSolution.Api.Data;
 using ShopOnlineSolution.Api.Repositories;
 using ShopOnlineSolution.Api.Repositories.Contracts;
@@ -25,6 +26,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(policy => 
+    policy.WithOrigins("https://localhost:7123", "http://localhost:5168")
+    .AllowAnyMethod()
+    .WithHeaders(HeaderNames.ContentType)
+);
 
 app.UseHttpsRedirection();
 
