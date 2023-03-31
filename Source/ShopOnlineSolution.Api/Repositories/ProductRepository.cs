@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopOnlineSolution.Api.Data;
 using ShopOnlineSolution.Api.Entities;
 using ShopOnlineSolution.Api.Repositories.Contracts;
+using ShopOnlineSolution.Models.Dtos;
 
 namespace ShopOnlineSolution.Api.Repositories;
 
@@ -35,4 +36,12 @@ public class ProductRepository : IProductRepository
 
         return products;
     }
+    
+    // public async Task<IEnumerable<ProductDto>> GetItems()
+    // {
+    //     var products = await _context.Products.Include(p => p.ProductCategory).ToListAsync();
+    //     // var products = await _context.Products.ToListAsync();
+
+    //     return products;
+    // }
 }

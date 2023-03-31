@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShopOnlineSolution.Api.Data;
+using ShopOnlineSolution.Api.Repositories;
+using ShopOnlineSolution.Api.Repositories.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddDbContextPool<ShopOnlineDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnection"))
 );
 
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
