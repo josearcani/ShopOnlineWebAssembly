@@ -16,7 +16,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextPool<ShopOnlineDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnection"))
 );
-
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
@@ -25,18 +26,30 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    app.UseWebAssemblyDebugging();
 }
 
-app.UseCors(policy => 
-    policy.WithOrigins("https://localhost:7123", "http://localhost:5168")
-    .AllowAnyMethod()
-    .WithHeaders(HeaderNames.ContentType)
-);
+// app.UseCors(policy => 
+//     policy.WithOrigins("https://localhost:7123", "http://localhost:5168")
+//     .AllowAnyMethod()
+//     .WithHeaders(HeaderNames.ContentType)
+// );
 
 app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllers();
+// app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+    endpoints.MapFallbackToFile("index.html");
+});
 
 app.Run();
