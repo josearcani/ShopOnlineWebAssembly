@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopOnlineSolution.Api.Data;
 using ShopOnlineSolution.Api.Entities;
 using ShopOnlineSolution.Api.Repositories.Contracts;
-using ShopOnlineSolution.Models.Dtos;
+// using ShopOnlineSolution.Models.Dtos;
 
 namespace ShopOnlineSolution.Api.Repositories;
 
@@ -20,14 +20,17 @@ public class ProductRepository : IProductRepository
         return categories;
     }
 
-    public Task<ProductCategory> GetCategory(int id)
+    public async Task<ProductCategory> GetCategory(int id)
     {
-        throw new NotImplementedException();
+        var category = await _context.ProductCategories.SingleOrDefaultAsync(c => c.Id == id);
+
+        return category!;
     }
 
-    public Task<Product> GetItem(int id)
+    public async Task<Product> GetItem(int id)
     {
-        throw new NotImplementedException();
+        var product = await _context.Products.FindAsync(id);
+        return product!;
     }
 
     public async Task<IEnumerable<Product>> GetItems()
