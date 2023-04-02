@@ -8,7 +8,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  project: './Source/ShopOnlineSolution.Api/*.csproj'
+  project: './Source/**/*.csproj'
   buildConfiguration: 'Release'
 
 steps:
