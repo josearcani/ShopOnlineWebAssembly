@@ -1,0 +1,30 @@
+
+trigger:
+- develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+  name: DemoPool
+
+variables:
+  solution: '**/*.sln'
+  project: './Source/ShopOnlineSolution.Api/*.csproj'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '$(project)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
