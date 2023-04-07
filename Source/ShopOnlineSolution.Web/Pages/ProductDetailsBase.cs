@@ -12,6 +12,12 @@ public class ProductDetailsBase : ComponentBase
     [Inject]
     public IProductService ProductService { get; set; } = null!;
 
+    [Inject]
+    public IShoppingCartService ShoppingCartService { get; set; } = null!;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     public ProductDto Product { get; set; } = null!;
 
     public string? ErrorMessage { get; set; }
@@ -21,6 +27,20 @@ public class ProductDetailsBase : ComponentBase
         try
         {
             Product = await ProductService.GetItem(Id);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    protected async Task AddTCart_Click(CartItemToAddDto cartItemToAddDto)
+    {
+        try
+        {
+            var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
+            // redirects after added
+            NavigationManager.NavigateTo("/ShoppingCart");
         }
         catch (Exception ex)
         {
