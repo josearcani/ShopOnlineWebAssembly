@@ -49,6 +49,9 @@ public class ShoppingCartBase : ComponentBase
         // change IEnumerable to List
 
         // ShoppingCartItems.Remove(item);
+
+        // or remove item from IEnumerable
+        ShoppingCartItems = ShoppingCartItems.Where(item => item.Id != id);
     }
 
 }
