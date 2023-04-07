@@ -49,7 +49,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
         // todo
         // verifiy element exists\
         var cartItem = await _context.CartItems.FindAsync(id);
-        var cartItem1 = await _context.CartItems.AnyAsync(c => c.Id == id);
+        // var cartItem1 = await _context.CartItems.AnyAsync(c => c.Id == id);
 
         if (cartItem != null)
         {

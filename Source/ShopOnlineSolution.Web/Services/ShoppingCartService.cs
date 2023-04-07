@@ -17,7 +17,7 @@ public class ShoppingCartService : IShoppingCartService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync<CartItemToAddDto>("api/ShoppingCart", cartItemToAddDto); 
+            var response = await _httpClient.PostAsJsonAsync<CartItemToAddDto>("api/ShoppingCart", cartItemToAddDto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -36,7 +36,35 @@ public class ShoppingCartService : IShoppingCartService
         }
         catch (Exception)
         {
-            
+
+            throw;
+        }
+    }
+
+    public async Task<CartItemDto> DeleteItem(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/ShoppingCart/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var cartItemDto = await response.Content.ReadFromJsonAsync<CartItemDto>();
+                
+                if (cartItemDto == null)
+                {
+                    throw new Exception("this is strange");
+                }
+                return cartItemDto;
+            }
+            else
+            {
+                return default(CartItemDto)!;
+            }
+        }
+        catch (Exception)
+        {
+
             throw;
         }
     }

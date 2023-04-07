@@ -109,4 +109,35 @@ public class ShoppingCartController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    // [HttpDelete]
+    // [Route("{id:int}")]
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
+    {
+        try
+        {
+            var cartItem = await _shoppingCartRepository.DeleteItem(id);
+
+            if (cartItem  == null)
+            {
+                return this.NotFound();
+            }
+
+            var product = await _productRepository.GetItem(cartItem.ProductId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var deletedCartItemDto = cartItem.ConvertToDto(product);
+
+            return this.Ok(deletedCartItemDto);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }
