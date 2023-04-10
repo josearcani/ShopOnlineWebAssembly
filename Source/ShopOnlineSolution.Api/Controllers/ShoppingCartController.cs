@@ -140,4 +140,33 @@ public class ShoppingCartController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+    {
+        try
+        {
+            var cartItem = await _shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
+
+            if (cartItem  == null)
+            {
+                return this.NotFound();
+            }
+
+            var product = await _productRepository.GetItem(cartItem.ProductId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var updatedQtyCartItemDto = cartItem.ConvertToDto(product);
+
+            return this.Ok(updatedQtyCartItemDto);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

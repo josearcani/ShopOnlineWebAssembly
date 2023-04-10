@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using System.Text;
+using Newtonsoft.Json;
 using ShopOnlineSolution.Models.Dtos;
 using ShopOnlineSolution.Web.Services.Contracts;
 
@@ -100,6 +102,32 @@ public class ShoppingCartService : IShoppingCartService
         catch (Exception)
         {
             // log exception, friendly message
+            throw;
+        }
+    }
+
+    public async Task<CartItemDto> UpdateQty(CartItemQtyUpdateDto cartItemQtyUpdateDto)
+    {
+        try
+        {
+            //serialize when pass to the server
+            // sent a stringContent so we can pass in the appropiate format to the server
+            var jsonRequest = JsonConvert.SerializeObject(cartItemQtyUpdateDto);
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
+
+            var response = await _httpClient.PatchAsync($"api/ShoppingCart/{cartItemQtyUpdateDto.CartItemId}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            
+            return await response.Content.ReadFromJsonAsync<CartItemDto>();
+
+        }
+        catch (System.Exception)
+        {
+            
             throw;
         }
     }

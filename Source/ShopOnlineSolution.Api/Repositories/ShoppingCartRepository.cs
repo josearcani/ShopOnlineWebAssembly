@@ -101,8 +101,17 @@ public class ShoppingCartRepository : IShoppingCartRepository
         }).ToListAsync();
     }
 
-    public Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+    public async Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
     {
-        throw new NotImplementedException();
+        var item = await _context.CartItems.FindAsync(id);
+
+        if (item != null)
+        {
+            item.Qty = cartItemQtyUpdateDto.Qty;
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        return null;
     }
 }
