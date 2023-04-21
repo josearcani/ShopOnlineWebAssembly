@@ -8,12 +8,30 @@ public class ProductsBase : ComponentBase
 {
     [Inject]
     public IProductService ProductService { get; set; } = null!;
+    [Inject]
+    public IShoppingCartService ShoppingCartService { get; set; } = null!;
 
     public IEnumerable<ProductDto> Products { get; set; } = null!;
 
+    public NavigationManager NavigationManager { get; set; }
+
+    public string? ErrorMessage { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Products = await ProductService.GetItems();
+        try
+        {
+            Products = await ProductService.GetItems();
+            // not the best performant way, this is not optimized
+            var shoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+            var totalQty = shoppingCartItems.Sum(item => item.Qty);
+
+            ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+        }
+        catch (System.Exception)
+        {
+            
+            throw;
+        }
     }
 
     protected IOrderedEnumerable<IGrouping<int, ProductDto>> GetGroupedProductsByCategory()

@@ -9,6 +9,7 @@ namespace ShopOnlineSolution.Web.Services;
 public class ShoppingCartService : IShoppingCartService
 {
     private readonly HttpClient _httpClient;
+    public event Action<int> OnShoppingCartChanged;
 
     public ShoppingCartService(HttpClient httpClient)
     {
@@ -103,6 +104,15 @@ public class ShoppingCartService : IShoppingCartService
         {
             // log exception, friendly message
             throw;
+        }
+    }
+
+    public void RaiseEventOnShoppingCartChanged(int totalQty)
+    {
+        //check the ecent has subs
+        if (OnShoppingCartChanged != null)
+        {
+            OnShoppingCartChanged.Invoke(totalQty);
         }
     }
 

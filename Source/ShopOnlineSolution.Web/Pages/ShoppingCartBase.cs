@@ -24,7 +24,7 @@ public class ShoppingCartBase : ComponentBase
         try
         {
             ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
-            this.CalculateCartSummaryTotals();
+            this.CartChanged();
         }
         catch (Exception ex)
         {
@@ -40,7 +40,7 @@ public class ShoppingCartBase : ComponentBase
         // we can delete direcly the list in the client side without making a new call
 
         this.RemoveCartItem(id);
-        this.CalculateCartSummaryTotals();
+        this.CartChanged();
     }
 
     protected async Task UpdateQtyCartItem_Click(int id, int qty)
@@ -58,7 +58,7 @@ public class ShoppingCartBase : ComponentBase
                 var response = await ShoppingCartService.UpdateQty(updateItemDto);
                 
                 this.UpdateItemsTotalPrice(response);
-                this.CalculateCartSummaryTotals();
+                this.CartChanged();
 
                 await this.MakeUpdateQtyButtonVisible(id, false);
 
@@ -133,6 +133,12 @@ public class ShoppingCartBase : ComponentBase
 
         // or remove item from IEnumerable
         ShoppingCartItems = ShoppingCartItems.Where(item => item.Id != id);
+    }
+
+    private void CartChanged()
+    {
+        this.CalculateCartSummaryTotals();
+        ShoppingCartService.RaiseEventOnShoppingCartChanged(TotalQuantity);
     }
 
 }
