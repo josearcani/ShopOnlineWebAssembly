@@ -29,7 +29,8 @@ public class ShoppingCartService : IShoppingCartService
                     return default(CartItemDto)!;
                 }
 
-                return await response.Content.ReadFromJsonAsync<CartItemDto>();
+                var resp = await response.Content.ReadFromJsonAsync<CartItemDto>();
+                return resp!;
             }
             else
             {
@@ -132,8 +133,8 @@ public class ShoppingCartService : IShoppingCartService
                 return null;
             }
             
-            return await response.Content.ReadFromJsonAsync<CartItemDto>();
-
+            var resp = await response.Content.ReadFromJsonAsync<CartItemDto>();
+            return resp!;
         }
         catch (System.Exception)
         {

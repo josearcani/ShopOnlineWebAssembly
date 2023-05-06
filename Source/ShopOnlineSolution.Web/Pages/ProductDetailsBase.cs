@@ -16,7 +16,7 @@ public class ProductDetailsBase : ComponentBase
     public IShoppingCartService ShoppingCartService { get; set; } = null!;
 
     [Inject]
-    public NavigationManager NavigationManager { get; set; }
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     public ProductDto Product { get; set; } = null!;
 

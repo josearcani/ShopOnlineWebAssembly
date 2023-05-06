@@ -13,7 +13,7 @@ public class ProductsBase : ComponentBase
 
     public IEnumerable<ProductDto> Products { get; set; } = null!;
 
-    public NavigationManager NavigationManager { get; set; }
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     public string? ErrorMessage { get; set; }
     protected override async Task OnInitializedAsync()

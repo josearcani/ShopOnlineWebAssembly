@@ -8,7 +8,7 @@ namespace ShopOnlineSolution.Web.Pages;
 public class ShoppingCartBase : ComponentBase
 {
     [Inject]
-    public IJSRuntime Js { get; set; }
+    public IJSRuntime Js { get; set; } = null!;
 
     [Inject]
     public IShoppingCartService ShoppingCartService { get; set; } = null!;

@@ -55,7 +55,8 @@ public class ProductService : IProductService
                     return Enumerable.Empty<ProductDto>();
                 }
 
-                return await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>();
+                var resp = await response.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>();
+                return resp!;
             }
             else
             {
