@@ -1,6 +1,6 @@
-namespace ShopOnlineSolution.Api.Entities;
+namespace ShopOnlineSolution.Models.Dtos;
 
-public class ProductCategory
+public class ProductCategoryDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
