@@ -23,7 +23,7 @@ public class ProductService : IProductService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return default(ProductDto)!;
+                    return default!;
                 }
 
                 var resp = await response.Content.ReadFromJsonAsync<ProductDto>();

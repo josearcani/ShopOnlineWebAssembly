@@ -42,7 +42,7 @@ public class ProductsBase : ComponentBase
                select prodByCatGroup;
     }
 
-    protected string GetCategoryName(IGrouping<int, ProductDto> groupedProductsDto)
+    protected static string GetCategoryName(IGrouping<int, ProductDto> groupedProductsDto)
     {
         return groupedProductsDto.FirstOrDefault(pg => pg.CategoryId == groupedProductsDto.Key)!.CategoryName;
     }

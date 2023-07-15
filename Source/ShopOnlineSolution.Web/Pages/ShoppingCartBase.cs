@@ -34,7 +34,7 @@ public class ShoppingCartBase : ComponentBase
 
     protected async Task DeleteCartItem_Click(int id)
     {
-        var cartItemDto = await ShoppingCartService.DeleteItem(id);
+        _ = await ShoppingCartService.DeleteItem(id);
 
         // we can either make a new call and re render the component - less performand
         // we can delete direcly the list in the client side without making a new call

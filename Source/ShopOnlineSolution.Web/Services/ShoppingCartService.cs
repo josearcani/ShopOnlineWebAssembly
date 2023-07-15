@@ -26,7 +26,7 @@ public class ShoppingCartService : IShoppingCartService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return default(CartItemDto)!;
+                    return default!;
                 }
 
                 var resp = await response.Content.ReadFromJsonAsync<CartItemDto>();
