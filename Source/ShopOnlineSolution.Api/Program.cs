@@ -23,13 +23,13 @@ builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
-    app.UseWebAssemblyDebugging();
-}
+// if (app.Environment.IsDevelopment())
+// {
+// }
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseDeveloperExceptionPage();
+app.UseWebAssemblyDebugging();
 
 // app.UseCors(policy =>
 //     policy.WithOrigins("https://localhost:7123", "http://localhost:5168")
