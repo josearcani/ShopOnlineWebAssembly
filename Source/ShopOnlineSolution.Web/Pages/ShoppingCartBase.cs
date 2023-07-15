@@ -35,10 +35,9 @@ public class ShoppingCartBase : ComponentBase
     protected async Task DeleteCartItem_Click(int id)
     {
         var cartItemDto = await ShoppingCartService.DeleteItem(id);
-        
+
         // we can either make a new call and re render the component - less performand
         // we can delete direcly the list in the client side without making a new call
-
         this.RemoveCartItem(id);
         this.CartChanged();
     }
@@ -56,12 +55,11 @@ public class ShoppingCartBase : ComponentBase
                 };
 
                 var response = await ShoppingCartService.UpdateQty(updateItemDto);
-                
+
                 this.UpdateItemsTotalPrice(response);
                 this.CartChanged();
 
                 await this.MakeUpdateQtyButtonVisible(id, false);
-
             }
             else
             {
@@ -109,7 +107,7 @@ public class ShoppingCartBase : ComponentBase
     private void SetTotalPrice()
     {
         // responsible to calculte
-        TotalPrice = ShoppingCartItems.Sum(t => t.TotalPrice).ToString("C"); 
+        TotalPrice = ShoppingCartItems.Sum(t => t.TotalPrice).ToString("C");
     }
 
     private void SetTotalQuantity()
@@ -125,12 +123,11 @@ public class ShoppingCartBase : ComponentBase
     private void RemoveCartItem(int id)
     {
         var item = this.GetCartItem(id);
-        //out collection is IEnumerable is fine when traversing through
+
+        // out collection is IEnumerable is fine when traversing through
         // not easy to remove an item from it
         // change IEnumerable to List
-
         // ShoppingCartItems.Remove(item);
-
         // or remove item from IEnumerable
         ShoppingCartItems = ShoppingCartItems.Where(item => item.Id != id);
     }
@@ -140,5 +137,4 @@ public class ShoppingCartBase : ComponentBase
         this.CalculateCartSummaryTotals();
         ShoppingCartService.RaiseEventOnShoppingCartChanged(TotalQuantity);
     }
-
 }

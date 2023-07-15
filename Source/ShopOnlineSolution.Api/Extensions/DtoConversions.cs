@@ -72,5 +72,4 @@ public static class DtoConversions
             TotalPrice = product.Price * cartItem.Qty,
         };
     }
-
 }

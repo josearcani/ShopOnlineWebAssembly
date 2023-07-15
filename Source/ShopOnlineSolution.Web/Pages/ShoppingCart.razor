@@ -12,11 +12,11 @@ else if (ErrorMessage != null)
 else
 {
     <h3 class="mb-5">ShoppingCart</h3>
-    @if (ShoppingCartItems.Count() > 0)
+    @if (ShoppingCartItems!.Count() > 0)
     {
         <div class="row mb-5">
             <div class="col-md-9">
-                @foreach (var item in ShoppingCartItems)
+                @foreach (var item in ShoppingCartItems!)
                 {
                     <div class="row mb-4">
                         <div class="col-md-4">

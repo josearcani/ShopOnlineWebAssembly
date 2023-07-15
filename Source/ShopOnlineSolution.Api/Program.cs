@@ -7,13 +7,13 @@ using ShopOnlineSolution.Api.Repositories.Contracts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContextPool<ShopOnlineDbContext>(options => 
+builder.Services.AddDbContextPool<ShopOnlineDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnection"))
 );
 builder.Services.AddControllersWithViews();
@@ -31,12 +31,11 @@ if (app.Environment.IsDevelopment())
     app.UseWebAssemblyDebugging();
 }
 
-// app.UseCors(policy => 
+// app.UseCors(policy =>
 //     policy.WithOrigins("https://localhost:7123", "http://localhost:5168")
 //     .AllowAnyMethod()
 //     .WithHeaders(HeaderNames.ContentType)
 // );
-
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();

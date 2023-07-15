@@ -26,7 +26,8 @@ public class ProductService : IProductService
                     return default(ProductDto)!;
                 }
 
-                return await response.Content.ReadFromJsonAsync<ProductDto>();
+                var resp = await response.Content.ReadFromJsonAsync<ProductDto>();
+                return resp!;
             }
             else
             {

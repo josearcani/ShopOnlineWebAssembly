@@ -9,7 +9,7 @@ namespace ShopOnlineSolution.Web.Services;
 public class ShoppingCartService : IShoppingCartService
 {
     private readonly HttpClient _httpClient;
-    public event Action<int> OnShoppingCartChanged;
+    public event Action<int>? OnShoppingCartChanged;
 
     public ShoppingCartService(HttpClient httpClient)
     {
@@ -40,7 +40,6 @@ public class ShoppingCartService : IShoppingCartService
         }
         catch (Exception)
         {
-
             throw;
         }
     }
@@ -54,21 +53,18 @@ public class ShoppingCartService : IShoppingCartService
             if (response.IsSuccessStatusCode)
             {
                 var cartItemDto = await response.Content.ReadFromJsonAsync<CartItemDto>();
-                
-                if (cartItemDto == null)
-                {
-                    throw new Exception("this is strange");
-                }
+
+                if (cartItemDto is null) throw new Exception("this is strange");
+
                 return cartItemDto;
             }
             else
             {
-                return default(CartItemDto)!;
+                return default!;
             }
         }
         catch (Exception)
         {
-
             throw;
         }
     }
@@ -82,22 +78,18 @@ public class ShoppingCartService : IShoppingCartService
 
             if (response.IsSuccessStatusCode)
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    return Enumerable.Empty<CartItemDto>();
-                }
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent) return Enumerable.Empty<CartItemDto>();
 
                 var cartItemsList = await response.Content.ReadFromJsonAsync<IEnumerable<CartItemDto>>();
 
-                if (cartItemsList == null)
-                {
-                    throw new Exception("this is strange");
-                }
+                if (cartItemsList == null) throw new Exception("this is strange");
+
                 return cartItemsList;
             }
             else
             {
                 var message = await response.Content.ReadAsStringAsync();
+
                 throw new Exception($"Http status: {response.StatusCode} - {message}");
             }
         }
@@ -110,35 +102,29 @@ public class ShoppingCartService : IShoppingCartService
 
     public void RaiseEventOnShoppingCartChanged(int totalQty)
     {
-        //check the ecent has subs
-        if (OnShoppingCartChanged != null)
-        {
-            OnShoppingCartChanged.Invoke(totalQty);
-        }
+        // check the event has subs
+        if (OnShoppingCartChanged != null) OnShoppingCartChanged.Invoke(totalQty);
     }
 
     public async Task<CartItemDto> UpdateQty(CartItemQtyUpdateDto cartItemQtyUpdateDto)
     {
         try
         {
-            //serialize when pass to the server
+            // serialize when pass to the server
             // sent a stringContent so we can pass in the appropiate format to the server
             var jsonRequest = JsonConvert.SerializeObject(cartItemQtyUpdateDto);
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json-patch+json");
 
             var response = await _httpClient.PatchAsync($"api/ShoppingCart/{cartItemQtyUpdateDto.CartItemId}", content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return null;
-            }
-            
+            if (!response.IsSuccessStatusCode) return null!;
+
             var resp = await response.Content.ReadFromJsonAsync<CartItemDto>();
+
             return resp!;
         }
-        catch (System.Exception)
+        catch (Exception)
         {
-            
             throw;
         }
     }

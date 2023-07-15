@@ -39,6 +39,7 @@ public class ProductDetailsBase : ComponentBase
         try
         {
             var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
+
             // redirects after added
             NavigationManager.NavigateTo("/ShoppingCart");
         }

@@ -26,19 +26,13 @@ public class ShoppingCartController : ControllerBase
         {
             var cartItems = await _shoppingCartRepository.GetItems(userId);
 
-            if (cartItems == null)
-            {
-                return this.NoContent();
-            }
+            if (cartItems is null) return NoContent();
 
             var products = await _productRepository.GetItems();
 
-            if (products == null)
-            {
-                throw new Exception("No products exist in the system");
-            }
+            if (products is null) throw new Exception("No products exist in the system");
 
-            var cartItemsDto = cartItems.ConvertToDto(products).ToList();
+            var cartItemsDto = cartItems!.ConvertToDto(products!).ToList();
             return Ok(cartItemsDto);
         }
         catch (Exception ex)
@@ -55,20 +49,15 @@ public class ShoppingCartController : ControllerBase
         {
             var cartItem = await _shoppingCartRepository.GetItem(id);
 
-            if (cartItem == null)
-            {
-                return this.NotFound();
-            }
+            if (cartItem is null) return NotFound();
 
             var product = await _productRepository.GetItem(cartItem.ProductId);
 
-            if (product == null)
-            {
-                return this.NotFound();
-            }
+            if (product is null) return NotFound();
 
             var cartItemDto = cartItem.ConvertToDto(product);
-            return this.Ok(cartItemDto);
+
+            return Ok(cartItemDto);
         }
         catch (Exception ex)
         {
@@ -83,26 +72,20 @@ public class ShoppingCartController : ControllerBase
         {
             var newCartItem = await _shoppingCartRepository.AddItem(cartItemToAddDto);
 
-            if (newCartItem == null)
-            {
-                return this.BadRequest();
-            }
+            if (newCartItem is null) return BadRequest();
 
             var product = await _productRepository.GetItem(newCartItem.ProductId);
 
-            if (product == null)
-            {
-                throw new Exception ($"Something went wrong when attempting to retrieve product (productId: ({cartItemToAddDto.ProductId}))");
-            }
+            if (product is null) throw new Exception($"Something went wrong when attempting to retrieve product (productId: ({cartItemToAddDto.ProductId}))");
 
             var newCartItemDto = newCartItem.ConvertToDto(product);
 
-            // it is a common practice to add the location of the new resource in the header 
+            // it is a common practice to add the location of the new resource in the header
             // of the response
             // relevant resource pertainig to get the item action method
             // include de id of the new resource
             // include de new added object
-            return this.CreatedAtAction(nameof(GetItem), new { id = newCartItem.Id }, newCartItemDto);
+            return CreatedAtAction(nameof(GetItem), new { id = newCartItem.Id }, newCartItemDto);
         }
         catch (Exception ex)
         {
@@ -110,8 +93,6 @@ public class ShoppingCartController : ControllerBase
         }
     }
 
-    // [HttpDelete]
-    // [Route("{id:int}")]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<CartItemDto>> DeleteItem(int id)
     {
@@ -119,21 +100,15 @@ public class ShoppingCartController : ControllerBase
         {
             var cartItem = await _shoppingCartRepository.DeleteItem(id);
 
-            if (cartItem  == null)
-            {
-                return this.NotFound();
-            }
+            if (cartItem is null) return NotFound();
 
             var product = await _productRepository.GetItem(cartItem.ProductId);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (product is null) return NotFound();
 
             var deletedCartItemDto = cartItem.ConvertToDto(product);
 
-            return this.Ok(deletedCartItemDto);
+            return Ok(deletedCartItemDto);
         }
         catch (Exception ex)
         {
@@ -148,21 +123,15 @@ public class ShoppingCartController : ControllerBase
         {
             var cartItem = await _shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
 
-            if (cartItem  == null)
-            {
-                return this.NotFound();
-            }
+            if (cartItem is null) return NotFound();
 
             var product = await _productRepository.GetItem(cartItem.ProductId);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (product is null) return NotFound();
 
             var updatedQtyCartItemDto = cartItem.ConvertToDto(product);
 
-            return this.Ok(updatedQtyCartItemDto);
+            return Ok(updatedQtyCartItemDto);
         }
         catch (Exception ex)
         {
