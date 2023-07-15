@@ -10,10 +10,7 @@ namespace ShopOnlineSolution.Api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductRepository _repository;
-    public ProductController(IProductRepository repository)
-    {
-        _repository = repository;
-    }
+    public ProductController(IProductRepository repository) => _repository = repository;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
@@ -23,13 +20,13 @@ public class ProductController : ControllerBase
             var products = await _repository.GetItems();
             var productCategories = await _repository.GetCategories();
 
-            if (products == null || productCategories == null )
+            if (products is null || productCategories is null)
             {
                 return NotFound();
             }
             else
             {
-                var productDtos = products.ConvertToDto(productCategories);
+                var productDtos = products!.ConvertToDto(productCategories!);
 
                 return Ok(productDtos);
             }
@@ -40,7 +37,6 @@ public class ProductController : ControllerBase
         }
     }
 
-
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ProductDto>> GetItem(int id)
     {
@@ -48,15 +44,15 @@ public class ProductController : ControllerBase
         {
             var product = await _repository.GetItem(id);
 
-            if (product == null)
+            if (product is null)
             {
                 return BadRequest();
             }
             else
             {
                 var productCategory = await _repository.GetCategory(product.CategoryId);
-                var productDto = product.ConvertToDto(productCategory);
-                
+                var productDto = product.ConvertToDto(productCategory!);
+
                 return Ok(productDto);
             }
         }
@@ -65,5 +61,4 @@ public class ProductController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
-
 }

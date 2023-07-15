@@ -7,15 +7,14 @@ public class ShopOnlineDbContext : DbContext
 {
     public ShopOnlineDbContext(DbContextOptions<ShopOnlineDbContext> options) : base(options)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        //Products
-        //Beauty Category
+        // Products
+        // Beauty Category
         modelBuilder.Entity<Product>().HasData(new Product
         {
             Id = 1,
@@ -25,7 +24,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 100,
             Qty = 100,
             CategoryId = 1
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -36,7 +34,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 50,
             Qty = 45,
             CategoryId = 1
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -47,7 +44,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 20,
             Qty = 30,
             CategoryId = 1
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -58,7 +54,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 50,
             Qty = 60,
             CategoryId = 1
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -69,9 +64,9 @@ public class ShopOnlineDbContext : DbContext
             Price = 30,
             Qty = 85,
             CategoryId = 1
-
         });
-        //Electronics Category
+
+        // Electronics Category
         modelBuilder.Entity<Product>().HasData(new Product
         {
             Id = 6,
@@ -81,7 +76,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 100,
             Qty = 120,
             CategoryId = 3
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -92,7 +86,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 40,
             Qty = 200,
             CategoryId = 3
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -103,7 +96,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 40,
             Qty = 300,
             CategoryId = 3
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -114,7 +106,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 600,
             Qty = 20,
             CategoryId = 3
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -125,7 +116,6 @@ public class ShopOnlineDbContext : DbContext
             Price = 500,
             Qty = 15,
             CategoryId = 3
-
         });
         modelBuilder.Entity<Product>().HasData(new Product
         {
@@ -137,7 +127,8 @@ public class ShopOnlineDbContext : DbContext
             Qty = 60,
             CategoryId = 3
         });
-        //Furniture Category
+
+        // Furniture Category
         modelBuilder.Entity<Product>().HasData(new Product
         {
             Id = 12,
@@ -199,7 +190,8 @@ public class ShopOnlineDbContext : DbContext
             Qty = 73,
             CategoryId = 2
         });
-        //Shoes Category
+
+        // Shoes Category
         modelBuilder.Entity<Product>().HasData(new Product
         {
             Id = 18,
@@ -261,57 +253,58 @@ public class ShopOnlineDbContext : DbContext
             CategoryId = 4
         });
 
-        //Add users
+        // Add users
         modelBuilder.Entity<User>().HasData(new User
         {
             Id = 1,
             UserName = "Bob"
-
         });
         modelBuilder.Entity<User>().HasData(new User
         {
             Id = 2,
             UserName = "Sarah"
-
         });
 
-        //Create Shopping Cart for Users
+        // Create Shopping Cart for Users
         modelBuilder.Entity<Cart>().HasData(new Cart
         {
             Id = 1,
             UserId = 1
-
         });
         modelBuilder.Entity<Cart>().HasData(new Cart
         {
             Id = 2,
             UserId = 2
-
         });
-        //Add Product Categories
+
+        // Add Product Categories
         modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
         {
             Id = 1,
-            Name = "Beauty"
+            Name = "Beauty",
+            IconCSS = "fas fa-spa"
         });
         modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
         {
             Id = 2,
-            Name = "Furniture"
+            Name = "Furniture",
+            IconCSS = "fas fa-couch"
         });
         modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
         {
             Id = 3,
-            Name = "Electronics"
+            Name = "Electronics",
+            IconCSS = "fas fa-headphones"
         });
         modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
         {
             Id = 4,
-            Name = "Shoes"
+            Name = "Shoes",
+            IconCSS = "fas fa-shoe-prints"
         });
     }
 
-    public DbSet<Cart> Cats { get; set; } = null!;
+    public DbSet<Cart> Carts { get; set; } = null!;
     public DbSet<CartItem> CartItems { get; set; } = null!;
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<ProductCategory> ProductCategories { get; set; } = null!;
